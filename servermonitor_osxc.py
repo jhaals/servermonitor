@@ -25,7 +25,7 @@ password = "" # Example: password = "GHJdf76(/&sfsdgkjh" (password given by serv
 
 # DO NOT change here unless you know what you're doing
 
-VERSION = 'osxc_1.2' # VERION OF SERVERMONITOR
+VERSION = 'osxc_1.3' # VERION OF SERVERMONITOR
 """
 VERSION sends the current version when updating.
 If update notifications are enabled at the serverpanel you will get notified when a new version is avalible
