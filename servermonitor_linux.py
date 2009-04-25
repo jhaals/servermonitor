@@ -88,6 +88,6 @@ who = commands.getoutput('who')
 dighost = commands.getoutput('dig '+hostname)
 digr = commands.getoutput('dig '+hostname+' +short')
 digreverse = commands.getoutput('dig -x '+digr)
-p = urllib.urlencode({'pw': password, 'hostname': hostname, 'id': id, 'who': who, 'last': last, 'dighost': dighost, 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime': uptime, 'ifconfig': ifconfig, 'version': VERSION})
+p = urllib.urlencode({'pw': password, 'hostname': hostname, 'id': id, 'who': who, 'last': last, 'dighost': dighost, 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime': uptime, 'ifconfig': ifconfig, 'version': VERSION, 'loadwarning': LOADWARNING })
 f = urllib.urlopen('http://servermonitor.se/monitor.php', p)
 
