@@ -19,7 +19,7 @@ import commands, re
 
 # Change this to values
 id =  # Example: id = 244 (id given by servermonitor)
-password = "" # Example: password = "GHJdf76(/&sfsdgkjh" (password given by servermonitor)
+password = '' # Example: password = 'GHJdf76(/&sfsdgkjh' (password given by servermonitor)
 
 
 # DO NOT change here unless you know what you're doing
@@ -77,7 +77,7 @@ if __name__ == '__main__':
             file.write('%s\n' % load[2])
 
 # Lots of commands executed.
-serial = commands.getoutput('system_profiler |head -20 |grep Serial')
+serial = commands.getoutput('system_profiler |head -20 |grep Serial').split()[3]
 df = commands.getoutput('df -h')
 uname = commands.getoutput('uname -a')
 uptime = commands.getoutput('uptime')
@@ -90,6 +90,6 @@ digr = commands.getoutput('dig '+hostname+' +short')
 digreverse = commands.getoutput('dig -x '+digr)
 sw_vers = commands.getoutput('sw_vers')
 
-p = urllib.urlencode({'pw': password, 'hostname': hostname, 'serial': serial.split()[2], 'loadwarning': LOADWARNING, 'id': id, 'who': who, 'last': last, 'dighost': dighost, 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime': uptime, 'ifconfig': ifconfig, 'version': VERSION, 'sw_vers': sw_vers})
+p = urllib.urlencode({'pw': password, 'hostname': hostname, 'serial': serial, 'loadwarning': LOADWARNING, 'id': id, 'who': who, 'last': last, 'dighost': dighost, 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime': uptime, 'ifconfig': ifconfig, 'version': VERSION, 'sw_vers': sw_vers})
 # Send data to server
 f = urllib.urlopen('http://servermonitor.se/monitor.php', p)
