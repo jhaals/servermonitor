@@ -122,4 +122,4 @@ f = urllib.urlopen('http://servermonitor.linuxuser.se/monitor.php', p)
 
 # Sending info over running services.
 services = urllib.urlencode({ 'id': id, 'password': password, 'HTTP': HTTP, 'SMB': SMB, 'AFP': AFP, 'SSH': SSH, 'DNS': DNS, 'IMAP': IMAP, 'FTP': FTP, 'SMTP': SMTP, 'HTTPS': HTTPS, 'LDAP': LDAP})
-f = urllib.urlopen('http://servermonitor.linuxuser.se/monitor.php', services)
+f = urllib.urlopen('http://servermonitor.linuxuser.se/services.php', services)
