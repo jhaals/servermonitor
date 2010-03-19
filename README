@@ -1,4 +1,14 @@
-Servermonitor - README
+Servermonitor README
+============================
+
+Servermonitor monitors your servers by sending information on its status to our site, safe, easy and secure. No sensetive information such as passwords or userinfo are beeing sent. All the information about your servers on the same site.
+If a service fails, or if your server is reporting high load or stopped responding, you will be warned via e-mail or SMS.
+
 
 SETUP
---------
+============================
+Download servermonitor for your OS. Create the account at http://servermonitor.linuxuser.se
+Add your server. Type the ID and password you have been given by the site to the servermonitor program.
+Run it as a crontab every ~20 minutes.
+
+
