@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# Copyright (c) 2008-2009, Johan Haals <johan.haals@gmail.com>
+# Copyright (c) 2008-2010, Johan Haals <johan.haals@gmail.com>
 # All rights reserved.
 
 from __future__ import with_statement
