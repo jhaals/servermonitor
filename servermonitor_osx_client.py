@@ -4,7 +4,7 @@
 
 from __future__ import with_statement
 import urllib
-import commands, re
+import commands, re, socket
 
 # Change this to values
 id =  # Example: id = 244 (id given by servermonitor)
