@@ -36,7 +36,7 @@ If update notifications are enabled at the serverpanel you will get notified whe
 filename = '/tmp/webmonitor_load_history'
 # Warn when system loads get higher then 3
 threshold = 3
-LOADWARNING = 0
+LOAD_warning = 0
 def get_system_load():
     # Pattern to match average load values like '0.71, 1.24, 0.88'
     pattern = r'(?:(\d+(?:\.|,)\d+),?)+'
@@ -64,7 +64,7 @@ if __name__ == '__main__':
             avg = sum([float(value) for value in lines]) / len(lines)
 
             if avg > threshold:
-                LOADWARNING = 1
+                LOAD_warning = 1
 
             # Delete the oldest value
             del lines[0]
@@ -116,7 +116,7 @@ FTP = 1 if CheckService(FTP_PORT) else 0
 LDAP = 1 if CheckService(LDAP_PORT) else 0
 # EOF CheckService BLOCK
 
-p = urllib.urlencode({'pw': password, 'hostname': hostname, 'serial': serial, 'loadwarning': LOADWARNING, 'id': id, 'who': who, 'last': last, 'dighost': dighost, 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime': uptime, 'ifconfig': ifconfig, 'version': VERSION, 'sw_vers': sw_vers})
+p = urllib.urlencode({'pw': password, 'hostname': hostname, 'serial': serial, 'LOAD_warning': LOAD_warning, 'id': id, 'who': who, 'last': last, 'dighost': dighost, 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime': uptime, 'ifconfig': ifconfig, 'version': VERSION, 'sw_vers': sw_vers})
 # Send data to server
 f = urllib.urlopen('http://servermonitor.linuxuser.se/monitor.php', p)
 
