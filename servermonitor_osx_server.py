@@ -4,16 +4,29 @@
 
 from __future__ import with_statement
 import urllib
-import commands, re
+import commands, re, socket
 
 # Change this to values
 id = # Example: id = 244 (id given by servermonitor)
 password = "" # Example: password = "GHJdf76(/&sfsdgkjh" (password given by servermonitor)
 
+# Standard ports for services (can be modified if you use a custom port)
+SSH_PORT = 22
+FTP_PORT = 21
+HTTP_PORT = 80
+HTTPS_PORT = 443
+SMTP_PORT = 25
+IMAP_PORT = 143
+POP_PORT = 993
+AFP_PORT = 548
+SMB_PORT = 445
+MySQL_PORT = 3306
+DNS_PORT = 53
+LDAP_PORT = 389
 
 # DO NOT change here unless you know what you're doing
 
-VERSION = 'osxs_1.3' # VERION OF SERVERMONITOR
+VERSION = 'osxs_1.4' # VERION OF SERVERMONITOR
 """
 VERSION sends the current version when updating.
 If update notifications are enabled at the serverpanel you will get notified when a new version is avalible
@@ -23,7 +36,7 @@ If update notifications are enabled at the serverpanel you will get notified whe
 filename = '/tmp/webmonitor_load_history'
 # Warn when system loads get higher then 3
 threshold = 3
-LOADWARNING = 0
+LOAD_warning = 0
 def get_system_load():
     # Pattern to match average load values like '0.71, 1.24, 0.88'
     pattern = r'(?:(\d+(?:\.|,)\d+),?)+'
@@ -51,7 +64,7 @@ if __name__ == '__main__':
             avg = sum([float(value) for value in lines]) / len(lines)
 
             if avg > threshold:
-                LOADWARNING = 1
+                LOAD_warning = 1
 
             # Delete the oldest value
             del lines[0]
@@ -81,16 +94,28 @@ list = serveradmin.split('\n')
 serial = commands.getoutput('system_profiler |head -20 |grep Serial')
 sw_vers = commands.getoutput('sw_vers')
 
-# List running services from Serveradmin
-services = ""
-for i in range(len(list)):
-        if(list[i] != "xserve"):
-                if(list[i] != "info"):
-                         = commands.getoutput("serveradmin  "+list[i])
-                        if(re.search('state', )):
-                                if not (re.search('Version', )):
-                                        if not (re.search('ID', )):
-                                                services = services + +"\n"
+# This CheckService function connects to the service to see if it responds
+def CheckService(port):
+    serviceSocket = socket.socket()
+    serviceSocket.settimeout(0.25)
+    try:
+        serviceSocket.connect(('localhost', port))
+        serviceSocket.close()
+        return True
+    except socket.error:
+        return False
+
+HTTP = 1 if CheckService(HTTP_PORT) else 0
+HTTPS = 1 if CheckService(HTTP_PORT) else 0
+DNS = 1 if CheckService(DNS_PORT) else 0
+SMB = 1 if CheckService(SMB_PORT) else 0
+AFP = 1 if CheckService(AFP_PORT) else 0
+SSH = 1 if CheckService(SSH_PORT) else 0
+IMAP = 1 if CheckService(IMAP_PORT) else 0
+SMTP = 1 if CheckService(SMTP_PORT) else 0
+FTP = 1 if CheckService(FTP_PORT) else 0
+LDAP = 1 if CheckService(LDAP_PORT) else 0
+# EOF CheckService BLOCK
 
 # Get connected clients to AFP
 afp = commands.getoutput('serveradmin full afp')
@@ -99,12 +124,16 @@ afplist = afp.split('\n')
 for i in range(len(afplist)):
         if(re.search('currentConnections', afplist[i])):
                  CONNECTED_TO_AFP = afplist[i].split()[2]
-# END of get connected clients to AFP
+# EOF connected clients to AFP
 
+# Sendig server info to Servermonitor
 p = urllib.urlencode({'pw': password, 'hostname': hostname, 'serial':
-serial.split()[2], 'sw_vers': sw_vers, 'afp': CONNECTED_TO_AFP, 'id': id,
+serial.split()[2], 'sw_vers': sw_vers, 'afp_clients': CONNECTED_TO_AFP, 'id': id,
 'services': services, 'who': who, 'last': last, 'dighost': dighost,
 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime':
-uptime, 'ifconfig': ifconfig, 'loadwarning': LOADWARNING, 'version': VERSION})
-f = urllib.urlopen('http://servermonitor.se/monitor.php', p)
+uptime, 'ifconfig': ifconfig, 'LOAD_warning': LOAD_warning, 'version': VERSION})
+f = urllib.urlopen('http://servermonitor.linuxuser.se/monitor.php', p)
 
+# Sending info over running services.
+services = urllib.urlencode({ 'id': id, 'password': password, 'HTTP': HTTP, 'SMB': SMB, 'AFP': AFP, 'SSH': SSH, 'DNS': DNS, 'IMAP': IMAP, 'FTP': FTP, 'SMTP': SMTP, 'HTTPS': HTTPS, 'LDAP': LDAP})
+f = urllib.urlopen('http://servermonitor.linuxuser.se/monitor.php', services)
