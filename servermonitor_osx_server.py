@@ -91,7 +91,8 @@ digr = commands.getoutput('dig '+hostname+' +short')
 digreverse = commands.getoutput('dig -x '+digr)
 serveradmin = commands.getoutput('serveradmin list')
 list = serveradmin.split('\n')
-serial = commands.getoutput('system_profiler |head -20 |grep Serial')
+serial = commands.getoutput('ioreg -l | grep IOPlatformSerialNumber')
+serial = serial.split()[3].replace('"', '')
 sw_vers = commands.getoutput('sw_vers')
 
 # This CheckService function connects to the service to see if it responds
@@ -120,7 +121,7 @@ LDAP = 1 if CheckService(LDAP_PORT) else 0
 
 # Sendig server info to Servermonitor
 p = urllib.urlencode({'password': password, 'hostname': hostname, 'serial':
-serial.split()[2], 'sw_vers': sw_vers, 'id': id, 'who': who, 'last': last, 'dighost': dighost,
+serial, 'sw_vers': sw_vers, 'id': id, 'who': who, 'last': last, 'dighost': dighost,
 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime':
 uptime, 'ifconfig': ifconfig, 'version': VERSION})
 f = urllib.urlopen('http://servermonitor.linuxuser.se/monitor.php', p)

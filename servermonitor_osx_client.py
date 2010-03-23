@@ -79,7 +79,8 @@ if __name__ == '__main__':
             file.write('%s\n' % load[2])
 
 # Lots of commands executed.
-serial = commands.getoutput('system_profiler |head -20 |grep Serial').split()[3]
+serial = commands.getoutput('ioreg -l | grep IOPlatformSerialNumber')
+serial = serial.split()[3].replace('"', '')
 df = commands.getoutput('df -h')
 uname = commands.getoutput('uname -a')
 uptime = commands.getoutput('uptime')
