@@ -116,10 +116,10 @@ FTP = 1 if CheckService(FTP_PORT) else 0
 LDAP = 1 if CheckService(LDAP_PORT) else 0
 # EOF CheckService BLOCK
 
-p = urllib.urlencode({'password': password, 'hostname': hostname, 'serial': serial, 'LOAD_warning': LOAD_warning, 'id': id, 'who': who, 'last': last, 'dighost': dighost, 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime': uptime, 'ifconfig': ifconfig, 'version': VERSION, 'sw_vers': sw_vers})
+p = urllib.urlencode({'password': password, 'hostname': hostname, 'serial': serial, 'id': id, 'who': who, 'last': last, 'dighost': dighost, 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime': uptime, 'ifconfig': ifconfig, 'version': VERSION, 'sw_vers': sw_vers})
 # Send data to server
 f = urllib.urlopen('http://servermonitor.linuxuser.se/monitor.php', p)
 
 # Sending info over running services.
-services = urllib.urlencode({ 'id': id, 'password': password, 'HTTP': HTTP, 'SMB': SMB, 'AFP': AFP, 'SSH': SSH, 'DNS': DNS, 'IMAP': IMAP, 'FTP': FTP, 'SMTP': SMTP, 'HTTPS': HTTPS, 'LDAP': LDAP})
+services = urllib.urlencode({ 'id': id, 'password': password, 'HTTP': HTTP, 'SMB': SMB, 'AFP': AFP, 'SSH': SSH, 'DNS': DNS, 'IMAP': IMAP, 'FTP': FTP, 'SMTP': SMTP, 'HTTPS': HTTPS, 'LDAP': LDAP, 'LOAD_warning': LOAD_warning})
 f = urllib.urlopen('http://servermonitor.linuxuser.se/services.php', services)

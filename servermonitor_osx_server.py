@@ -122,9 +122,9 @@ LDAP = 1 if CheckService(LDAP_PORT) else 0
 p = urllib.urlencode({'password': password, 'hostname': hostname, 'serial':
 serial.split()[2], 'sw_vers': sw_vers, 'id': id, 'who': who, 'last': last, 'dighost': dighost,
 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime':
-uptime, 'ifconfig': ifconfig, 'LOAD_warning': LOAD_warning, 'version': VERSION})
+uptime, 'ifconfig': ifconfig, 'version': VERSION})
 f = urllib.urlopen('http://servermonitor.linuxuser.se/monitor.php', p)
 
 # Sending info over running services.
-services = urllib.urlencode({ 'id': id, 'password': password, 'HTTP': HTTP, 'SMB': SMB, 'AFP': AFP, 'SSH': SSH, 'DNS': DNS, 'IMAP': IMAP, 'FTP': FTP, 'SMTP': SMTP, 'HTTPS': HTTPS, 'LDAP': LDAP})
+services = urllib.urlencode({ 'id': id, 'password': password, 'HTTP': HTTP, 'SMB': SMB, 'AFP': AFP, 'SSH': SSH, 'DNS': DNS, 'IMAP': IMAP, 'FTP': FTP, 'SMTP': SMTP, 'HTTPS': HTTPS, 'LDAP': LDAP, 'LOAD_warning': LOAD_warning})
 f = urllib.urlopen('http://servermonitor.linuxuser.se/services.php', services)

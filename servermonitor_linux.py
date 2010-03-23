@@ -90,7 +90,7 @@ who = commands.getoutput('who')
 dighost = commands.getoutput('dig '+hostname)
 digr = commands.getoutput('dig '+hostname+' +short')
 digreverse = commands.getoutput('dig -x '+digr)
-p = urllib.urlencode({'pw': password, 'hostname': hostname, 'id': id, 'who': who, 'last': last, 'dighost': dighost, 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime': uptime, 'ifconfig': ifconfig, 'version': VERSION, 'LOAD_warning': LOAD_warning })
+p = urllib.urlencode({'pw': password, 'hostname': hostname, 'id': id, 'who': who, 'last': last, 'dighost': dighost, 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime': uptime, 'ifconfig': ifconfig, 'version': VERSION})
 f = urllib.urlopen('http://servermonitor.linuxuser.se/monitor.php', p)
 
 # This CheckService function connects to the service to see if it responds
@@ -117,5 +117,5 @@ LDAP = 1 if CheckService(LDAP_PORT) else 0
 # EOF CheckService BLOCK
 
 # Sending info over running services.
-services = urllib.urlencode({ 'id': id, 'password': password, 'HTTP': HTTP, 'SMB': SMB, 'AFP': AFP, 'SSH': SSH, 'DNS': DNS, 'IMAP': IMAP, 'FTP': FTP, 'SMTP': SMTP, 'HTTPS': HTTPS, 'LDAP': LDAP})
+services = urllib.urlencode({ 'id': id, 'password': password, 'HTTP': HTTP, 'SMB': SMB, 'AFP': AFP, 'SSH': SSH, 'DNS': DNS, 'IMAP': IMAP, 'FTP': FTP, 'SMTP': SMTP, 'HTTPS': HTTPS, 'LDAP': LDAP, 'LOAD_warning': LOAD_warning})
 f = urllib.urlopen('http://servermonitor.linuxuser.se/services.php', services)
