@@ -117,19 +117,10 @@ FTP = 1 if CheckService(FTP_PORT) else 0
 LDAP = 1 if CheckService(LDAP_PORT) else 0
 # EOF CheckService BLOCK
 
-# Get connected clients to AFP
-afp = commands.getoutput('serveradmin full afp')
-afplist = afp.split('\n')
-
-for i in range(len(afplist)):
-        if(re.search('currentConnections', afplist[i])):
-                 CONNECTED_TO_AFP = afplist[i].split()[2]
-# EOF connected clients to AFP
 
 # Sendig server info to Servermonitor
-p = urllib.urlencode({'pw': password, 'hostname': hostname, 'serial':
-serial.split()[2], 'sw_vers': sw_vers, 'afp_clients': CONNECTED_TO_AFP, 'id': id,
-'services': services, 'who': who, 'last': last, 'dighost': dighost,
+p = urllib.urlencode({'password': password, 'hostname': hostname, 'serial':
+serial.split()[2], 'sw_vers': sw_vers, 'id': id, 'who': who, 'last': last, 'dighost': dighost,
 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime':
 uptime, 'ifconfig': ifconfig, 'LOAD_warning': LOAD_warning, 'version': VERSION})
 f = urllib.urlopen('http://servermonitor.linuxuser.se/monitor.php', p)
