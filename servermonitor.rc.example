@@ -14,19 +14,25 @@ password = 'af0sd24&)#(,34928' # Change password
 # ---------------------------------------------------------------------------------------------
 
 # Standard ports for services (can be modified if you use a custom port)
+[ports]
+ssh = 22
+ftp = 21
+http = 80
 
-SSH_PORT = 22
-FTP_PORT = 21
-HTTP_PORT = 80
-HTTPS_PORT = 443
-SMTP_PORT = 25
-IMAP_PORT = 143
-POP_PORT = 993
-AFP_PORT = 548
-SMB_PORT = 445
-MySQL_PORT = 3306
-DNS_PORT = 53
-LDAP_PORT = 389
+# This config file is case insensitive!
+HTTPS = 443
+SmtP = 25
+ImAp = 143
+
+# You can also use colons.
+pop : 993
+afp : 548
+smb : 445
+mysql : 3306
+
+# You don't have to define any of these, fallback will be the default port for that service.
+#dns : 53
+#ldap = 389
 
 # This application also monitor the system load of your server. If you dont know anything about server load, please keep this at the standard value(3)
 threshold = 3
