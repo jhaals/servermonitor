@@ -9,7 +9,7 @@ SETUP
 ============================
 Download servermonitor for your OS. Create the account at http://servermonitor.linuxuser.se
 Add your server. Type the ID and password you have been given by the site to the servermonitor program.
-Run it as a crontab every ~20 minutes.
+Run it as a crontab every 18 minutes.
 
 
 Authors & Contributors 
