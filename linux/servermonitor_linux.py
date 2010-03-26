@@ -66,6 +66,7 @@ if __name__ == '__main__':
             password = config.get("global", "password");
         except ConfigParser.NoOptionError:
             print "Could not extract id and/or password from " + configpath + ". Make sure it is properly configured.";
+            sys.exit(1);
     else:
         print "Could not locate config file, make sure " + configpath + " exists and is properly configured. \nCheck README for more information.";
         sys.exit(1);
