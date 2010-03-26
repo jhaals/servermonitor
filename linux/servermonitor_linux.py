@@ -4,11 +4,12 @@
 
 from __future__ import with_statement
 import urllib
-import commands, re, socket
+import commands, re, socket, ConfigParser, os, sys
 
 # Change this to values
-id = # Example: id = 244 (id given by servermonitor)
-password = "" # Example: password = "GHJdf76(/&sfsdgkjh" (password given by servermonitor)
+#id = # Example: id = 244 (id given by servermonitor)
+#password = "" # Example: password = "GHJdf76(/&sfsdgkjh" (password given by servermonitor)
+configpath = os.path.expanduser("~") + "/.servermonitor.rc";
 
 # Standard ports for services (can be modified if you use a custom port)
 SSH_PORT = 22
@@ -37,7 +38,8 @@ filename = '/tmp/webmonitor_load_history'
 # Warn when system loads get higher then 3
 threshold = 3
 LOAD_warning = 0
-def get_system_load():
+
+def get_system_load(): # {{{
     # Pattern to match average load values like '0.71, 1.24, 0.88'
     pattern = r'(?:(\d+(?:\.|,)\d+),?)+'
 
@@ -51,8 +53,25 @@ def get_system_load():
         load = [value.replace(',', '.') for value in load]
 
     return load
+# }}}
 
 if __name__ == '__main__':
+    # Read configfile. {{{
+    if os.path.exists(configpath) and os.path.isfile(configpath):
+        config = ConfigParser.RawConfigParser();
+        config.read(configpath);
+
+        try:
+            id = config.get("global", "id");
+            password = config.get("global", "password");
+        except ConfigParser.NoOptionError:
+            print "Could not extract id and/or password from " + configpath + ". Make sure it is properly configured.";
+    else:
+        print "Could not locate config file, make sure " + configpath + " exists and is properly configured. \nCheck README for more information.";
+        sys.exit(1);
+    # }}}
+
+
     load = get_system_load()
 
     try:
@@ -119,3 +138,5 @@ LDAP = 1 if CheckService(LDAP_PORT) else 0
 # Sending info over running services.
 services = urllib.urlencode({ 'id': id, 'password': password, 'HTTP': HTTP, 'SMB': SMB, 'AFP': AFP, 'SSH': SSH, 'DNS': DNS, 'IMAP': IMAP, 'FTP': FTP, 'SMTP': SMTP, 'HTTPS': HTTPS, 'LDAP': LDAP, 'LOAD_warning': LOAD_warning})
 f = urllib.urlopen('http://servermonitor.linuxuser.se/services.php', services)
+
+# vim: set expandtab shiftwidth=4 tabstop=4

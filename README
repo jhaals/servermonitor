@@ -9,6 +9,7 @@ SETUP
 ============================
 Download servermonitor for your OS. Create the account at http://servermonitor.linuxuser.se
 Add your server. Type the ID and password you have been given by the site to the servermonitor program.
+Copy servermonitor.rc.example to ~/.servermonitor.rc and edit to fit your configuration.
 Run it as a crontab every 18 minutes.
 
 
