@@ -26,7 +26,7 @@ LDAP_PORT = 389
 
 # DO NOT change here unless you know what you're doing
 
-VERSION = 'osxs_1.4' # VERION OF SERVERMONITOR
+VERSION = 'osxs_1.45' # VERION OF SERVERMONITOR
 """
 VERSION sends the current version when updating.
 If update notifications are enabled at the serverpanel you will get notified when a new version is avalible
@@ -89,8 +89,8 @@ who = commands.getoutput('who')
 dighost = commands.getoutput('dig '+hostname)
 digr = commands.getoutput('dig '+hostname+' +short')
 digreverse = commands.getoutput('dig -x '+digr)
-serial = commands.getoutput('ioreg -l | grep IOPlatformSerialNumber')
-serial = serial.split()[3].replace('"', '')
+serial = commands.getoutput('/usr/sbin/ioreg -l | /usr/bin/grep IOPlatformSerialNumber')
+serial = re.search(r'IOPlatformSerialNumber" = "([^"]+)', serial).group(1)
 sw_vers = commands.getoutput('sw_vers')
 
 # This CheckService function connects to the service to see if it responds

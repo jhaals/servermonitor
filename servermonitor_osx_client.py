@@ -26,7 +26,7 @@ LDAP_PORT = 389
 
 # DO NOT change here unless you know what you're doing
 
-VERSION = 'osxc_1.4' # VERION OF SERVERMONITOR
+VERSION = 'osxc_1.45' # VERION OF SERVERMONITOR
 """
 VERSION sends the current version when updating.
 If update notifications are enabled at the serverpanel you will get notified when a new version is avalible
@@ -79,8 +79,8 @@ if __name__ == '__main__':
             file.write('%s\n' % load[2])
 
 # Lots of commands executed.
-serial = commands.getoutput('ioreg -l | grep IOPlatformSerialNumber')
-serial = serial.split()[3].replace('"', '')
+serial = commands.getoutput('/usr/sbin/ioreg -l | /usr/bin/grep IOPlatformSerialNumber')
+serial = re.search(r'IOPlatformSerialNumber" = "([^"]+)', serial).group(1)
 df = commands.getoutput('df -h')
 uname = commands.getoutput('uname -a')
 uptime = commands.getoutput('uptime')
