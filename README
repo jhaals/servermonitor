@@ -10,9 +10,10 @@ SETUP
 
 Download servermonitor for your OS. Create the account at http://servermonitor.linuxuser.se
 Add your server. Type the ID and password you have been given by the site to the servermonitor program.
-Copy servermonitor.rc.example to ~/.servermonitor.rc and edit to fit your configuration.
-Run it as a crontab every 18 minutes.
-18 * * * * python /<path to client>/servermonitor_<os>.py
+Copy servermonitor.rc.example to ~/.servermonitor.rc and edit to fit your configuration, id and password are the only mandatory fields.
+Run it as a crontab every 18 minutes. To add the crontab, simply type crontab -e in your terminal and add the following line in the window (Change the line so it fits your configuration).
+18 * * * * python /<path to the servermonitor client>/servermonitor_<os>.py
+save and quit.
 Please observe that some OS requires the absolute path for python.
 
 Bugs, ideas and issues
