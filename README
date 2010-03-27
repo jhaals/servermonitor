@@ -16,6 +16,10 @@ Run it as a crontab every 18 minutes. To add the crontab, simply type crontab -e
 save and quit.
 Please observe that some OS requires the absolute path for python.
 
+OS X:
+Notification to Mac OS X GUI addicts. The GUI won't let you rename the config to .servermonitor.rc
+You have to use the terminal. Rename with the command: mv servermonitor.rc.example ~/servermonitor.rc
+
 Bugs, ideas and issues
 ============================
 
