@@ -95,7 +95,6 @@ if __name__ == '__main__':
             file.write('%s\n' % load[2])
 
 # Lots of commands executed.
-
 df = commands.getoutput('df -h')
 uname = commands.getoutput('uname -a')
 uptime = commands.getoutput('uptime')
@@ -108,8 +107,8 @@ digr = commands.getoutput('dig '+hostname+' +short')
 digreverse = commands.getoutput('dig -x '+digr)
 load = re.findall('(\d+[,.]\d+)', uptime)[2] # getting the 15min load for building a graph.
 
-p = urllib.urlencode({'password': password, 'hostname': hostname, 'id': id, 'who': who, 'last': last, 'dighost': dighost, 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime': uptime, 'ifconfig': ifconfig, 'version': VERSION, 'load': load})
-f = urllib.urlopen('http://servermonitor.linuxuser.se/monitor.php', p)
+serverinfo = urllib.urlencode({'password': password, 'hostname': hostname, 'id': id, 'who': who, 'last': last, 'dighost': dighost, 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime': uptime, 'ifconfig': ifconfig, 'version': VERSION, 'load': load})
+f = urllib.urlopen('http://servermonitor.linuxuser.se/monitor.php', serverinfo)
 
 for service, value in services.items():
     try:

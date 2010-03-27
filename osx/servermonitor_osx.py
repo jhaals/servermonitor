@@ -11,8 +11,6 @@ configpath = os.path.expanduser("~") + "/.servermonitor.rc"
 # Default service ports.
 services = {"SSH":443, "SMTP":25, "IMAP":143, "POP":993, "AFP":548, "SMB":554, "MySQL":3306, "DNS":53, "LDAP":389}
 
-# DO NOT change here unless you know what you're doing
-
 VERSION = 'osxc_1.45' # VERION OF SERVERMONITOR
 """
 VERSION sends the current version when updating.
@@ -114,9 +112,9 @@ sw_vers = commands.getoutput('sw_vers')
 load = re.findall('(\d+[,.]\d+)', uptime)[2] # getting the 15min load for building a graph.
 
 
-p = urllib.urlencode({'password': password, 'hostname': hostname, 'serial': serial, 'id': id, 'who': who, 'last': last, 'dighost': dighost, 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime': uptime, 'ifconfig': ifconfig, 'version': VERSION, 'sw_vers': sw_vers, 'load': load})
+serverinfo = urllib.urlencode({'password': password, 'hostname': hostname, 'serial': serial, 'id': id, 'who': who, 'last': last, 'dighost': dighost, 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime': uptime, 'ifconfig': ifconfig, 'version': VERSION, 'sw_vers': sw_vers, 'load': load})
 # Send data to server
-f = urllib.urlopen('http://servermonitor.linuxuser.se/monitor.php', p)
+f = urllib.urlopen('http://servermonitor.linuxuser.se/monitor.php', serverinfo)
 
 for service, value in services.items():
     try:
