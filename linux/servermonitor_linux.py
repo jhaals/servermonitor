@@ -19,8 +19,6 @@ If update notifications are enabled at the serverpanel you will get notified whe
 
 # Temp storage for load history
 filename = '/tmp/webmonitor_load_history'
-# Warn when system loads get higher then 3
-threshold = 3
 LOAD_warning = 0
 
 def get_system_load(): # {{{
@@ -62,6 +60,11 @@ if __name__ == '__main__':
             password = config.get("global", "password")
         except ConfigParser.NoOptionError:
             print "Could not extract id and/or password from " + configpath + ". Make sure it is properly configured."
+            sys.exit(1)
+        try:
+            threshold = config.get("global", "threshold")
+        except:
+            print 'Error in configuration file, unable to find the threshold variable. Default the default is 3'
             sys.exit(1)
     else:
         print "Could not locate config file, make sure " + configpath + " exists and is properly configured. \nCheck README for more information."
