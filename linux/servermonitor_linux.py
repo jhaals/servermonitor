@@ -9,7 +9,7 @@ import commands, re, socket, ConfigParser, os, sys
 # Change this to values
 #id = # Example: id = 244 (id given by servermonitor)
 #password = "" # Example: password = "GHJdf76(/&sfsdgkjh" (password given by servermonitor)
-configpath = os.path.expanduser("~") + "/.servermonitor.rc";
+configpath = os.path.expanduser("~") + "/.servermonitor.rc"
 
 # Standard ports for services (can be modified if you use a custom port)
 SSH_PORT = 22
@@ -58,18 +58,18 @@ def get_system_load(): # {{{
 if __name__ == '__main__':
     # Read configfile. {{{
     if os.path.exists(configpath) and os.path.isfile(configpath):
-        config = ConfigParser.RawConfigParser();
-        config.read(configpath);
+        config = ConfigParser.RawConfigParser()
+        config.read(configpath)
 
         try:
-            id = config.get("global", "id");
-            password = config.get("global", "password");
+            id = config.get("global", "id")
+            password = config.get("global", "password")
         except ConfigParser.NoOptionError:
-            print "Could not extract id and/or password from " + configpath + ". Make sure it is properly configured.";
-            sys.exit(1);
+            print "Could not extract id and/or password from " + configpath + ". Make sure it is properly configured."
+            sys.exit(1)
     else:
-        print "Could not locate config file, make sure " + configpath + " exists and is properly configured. \nCheck README for more information.";
-        sys.exit(1);
+        print "Could not locate config file, make sure " + configpath + " exists and is properly configured. \nCheck README for more information."
+        sys.exit(1)
     # }}}
 
 
