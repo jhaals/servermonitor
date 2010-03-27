@@ -3,8 +3,7 @@
 # All rights reserved.
 
 from __future__ import with_statement
-import urllib
-import commands, re, socket, ConfigParser, os, sys
+import commands, re, socket, ConfigParser, os, sys, urllib
 
 # configfile path.
 configpath = os.path.expanduser("~") + "/.servermonitor.rc"
