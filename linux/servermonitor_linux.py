@@ -6,10 +6,10 @@ from __future__ import with_statement
 import commands, re, socket, ConfigParser, os, sys, urllib
 
 # configfile path.
-configpath = os.path.expanduser("~") + "/.servermonitor.rc"
+configpath = os.path.expanduser('~') + '/.servermonitor.rc'
 
 # Default service ports.
-services = {"SSH":443, "SMTP":25, "IMAP":143, "POP":993, "AFP":548, "SMB":554, "MySQL":3306, "DNS":53, "LDAP":389}
+services = {'SSH':443, 'SMTP':25, 'IMAP':143, 'POP':993, 'AFP':548, 'SMB':554, 'MySQL':3306, 'DNS':53, 'LDAP':389}
 
 VERSION = 'linux_1.4' # VERION OF SERVERMONITOR
 """
@@ -38,7 +38,7 @@ def get_system_load(): # {{{
 # }}}
 
 def CheckService(port): # {{{
-    "CheckService connects to a service to see if it responds."
+    'CheckService connects to a service to see if it responds.'
     serviceSocket = socket.socket()
     serviceSocket.settimeout(0.25)
     try:
@@ -56,23 +56,23 @@ if __name__ == '__main__':
         config.read(configpath)
 
         try:
-            id = config.get("global", "id")
-            password = config.get("global", "password")
+            id = config.get('global', 'id')
+            password = config.get('global', 'password')
         except ConfigParser.NoOptionError:
-            print "Could not extract id and/or password from %s. Make sure it is properly configured." % configpath
+            print 'Could not extract id and/or password from %s. Make sure it is properly configured.' % configpath
             sys.exit(1)
         try:
-            threshold = config.get("global", "threshold")
+            threshold = config.get('global', 'threshold')
         except:
             print 'Unable to extract threshold from %s. Make sure it is properly configured.' % configpath
             sys.exit(1)
         try:
-            load_history_path = config.get("global", "load_history_path")
+            load_history_path = config.get('global', 'load_history_path')
         except:
             print 'Unable to extract load_history_path from %s. Make sure it is properly configured.' % configpath
             sys.exit(1)
     else:
-        print "Could not locate config file, make sure %s exists and is properly configured. \nCheck README for more information." % configpath
+        print 'Could not locate config file, make sure %s exists and is properly configured. \nCheck README for more information.' % configpath
         sys.exit(1)
     # }}}
 
@@ -120,13 +120,13 @@ f = urllib.urlopen('http://servermonitor.linuxuser.se/monitor.php', serverinfo)
 
 for service, value in services.items():
     try:
-        port = config.get("ports", str(service))
+        port = config.get('ports', str(service))
     except (ConfigParser.NoOptionError, ConfigParser.NoSectionError):
         port = value
 
     services[service] = 1 if CheckService(int(port)) else 0
 
-services.update({"id":id, "password":password, "LOAD_warning":LOAD_warning});
+services.update({'id':id, 'password':password, 'LOAD_warning':LOAD_warning});
 
 # Sending info over running services.
 servicesHandle = urllib.urlencode(services);
