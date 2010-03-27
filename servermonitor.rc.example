@@ -5,9 +5,10 @@
 
 # id and password to use this application can be found at the servermonitor site. You need to add your server there before you start.
 
-id = 231 # Change to the id you have been given
-password = 'af0sd24&)#(,34928' # Change password
-
+# Change to the id you have been given
+id = 231
+# Change password
+password = ChangeME
 
 # ---------------------------------------------------------------------------------------------
 # Everything under this line is OPTIONAL
