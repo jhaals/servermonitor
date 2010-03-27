@@ -1,3 +1,32 @@
 [global]
-id = 42
-password = mysecret
+# ---------------------------------------------------------------------------------------------
+# This is the configuration file for servermonitor, please read our README before you start.
+# ---------------------------------------------------------------------------------------------
+
+# id and password to use this application can be found at the servermonitor site. You need to add your server there before you start.
+
+id = 231 # Change to the id you have been given
+password = 'af0sd24&)#(,34928' # Change password
+
+
+# ---------------------------------------------------------------------------------------------
+# Everything under this line is OPTIONAL
+# ---------------------------------------------------------------------------------------------
+
+# Standard ports for services (can be modified if you use a custom port)
+
+SSH_PORT = 22
+FTP_PORT = 21
+HTTP_PORT = 80
+HTTPS_PORT = 443
+SMTP_PORT = 25
+IMAP_PORT = 143
+POP_PORT = 993
+AFP_PORT = 548
+SMB_PORT = 445
+MySQL_PORT = 3306
+DNS_PORT = 53
+LDAP_PORT = 389
+
+# This application also monitor the system load of your server. If you dont know anything about server load, please keep this at the standard value(3)
+threshold = 3
