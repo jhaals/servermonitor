@@ -18,7 +18,7 @@ If update notifications are enabled at the serverpanel you will get notified whe
 """
 
 # Temp storage for load history
-filename = '/tmp/webmonitor_load_history'
+load_history_path = '/tmp/webmonitor_load_history'
 LOAD_warning = 0
 
 def get_system_load(): # {{{
@@ -75,7 +75,7 @@ if __name__ == '__main__':
     load = get_system_load()
 
     try:
-        with open(filename, 'r') as file:
+        with open(load_history_path, 'r') as file:
             lines = file.readlines()
 
         # Only calculate average if we have atleast 3 previous load values
@@ -90,11 +90,11 @@ if __name__ == '__main__':
 
         lines.append(load[2] + '\n')
 
-        with open(filename, 'w') as file:
+        with open(load_history_path, 'w') as file:
             file.writelines(lines)
 
     except IOError:
-        with open(filename, 'w') as file:
+        with open(load_history_path, 'w') as file:
             file.write('%s\n' % load[2])
 
 # Lots of commands executed.
