@@ -110,7 +110,9 @@ who = commands.getoutput('who')
 dighost = commands.getoutput('dig '+hostname)
 digr = commands.getoutput('dig '+hostname+' +short')
 digreverse = commands.getoutput('dig -x '+digr)
-p = urllib.urlencode({'password': password, 'hostname': hostname, 'id': id, 'who': who, 'last': last, 'dighost': dighost, 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime': uptime, 'ifconfig': ifconfig, 'version': VERSION})
+load = re.findall('(\d+[,.]\d+)', uptime)[2] # getting the 15min load for building a graph.
+
+p = urllib.urlencode({'password': password, 'hostname': hostname, 'id': id, 'who': who, 'last': last, 'dighost': dighost, 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime': uptime, 'ifconfig': ifconfig, 'version': VERSION, 'load': load})
 f = urllib.urlopen('http://servermonitor.linuxuser.se/monitor.php', p)
 
 # This CheckService function connects to the service to see if it responds

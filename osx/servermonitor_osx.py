@@ -92,6 +92,7 @@ dighost = commands.getoutput('dig '+hostname)
 digr = commands.getoutput('dig '+hostname+' +short')
 digreverse = commands.getoutput('dig -x '+digr)
 sw_vers = commands.getoutput('sw_vers')
+load = re.findall('(\d+[,.]\d+)', uptime)[2] # getting the 15min load for building a graph.
 
 
 # This CheckService function connects to the service to see if it responds
@@ -117,7 +118,7 @@ FTP = 1 if CheckService(FTP_PORT) else 0
 LDAP = 1 if CheckService(LDAP_PORT) else 0
 # EOF CheckService BLOCK
 
-p = urllib.urlencode({'password': password, 'hostname': hostname, 'serial': serial, 'id': id, 'who': who, 'last': last, 'dighost': dighost, 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime': uptime, 'ifconfig': ifconfig, 'version': VERSION, 'sw_vers': sw_vers})
+p = urllib.urlencode({'password': password, 'hostname': hostname, 'serial': serial, 'id': id, 'who': who, 'last': last, 'dighost': dighost, 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime': uptime, 'ifconfig': ifconfig, 'version': VERSION, 'sw_vers': sw_vers, 'load': load})
 # Send data to server
 f = urllib.urlopen('http://servermonitor.linuxuser.se/monitor.php', p)
 
