@@ -59,15 +59,20 @@ if __name__ == '__main__':
             id = config.get("global", "id")
             password = config.get("global", "password")
         except ConfigParser.NoOptionError:
-            print "Could not extract id and/or password from " + configpath + ". Make sure it is properly configured."
+            print "Could not extract id and/or password from %s. Make sure it is properly configured." % configpath
             sys.exit(1)
         try:
             threshold = config.get("global", "threshold")
         except:
-            print 'Error in configuration file, unable to find the threshold variable. Default the default is 3'
+            print 'Unable to extract threshold from %s. Make sure it is properly configured.' % configpath
+            sys.exit(1)
+        try:
+            load_history_path = config.get("global", "load_history_path")
+        except:
+            print 'Unable to extract load_history_path from %s. Make sure it is properly configured.' % configpath
             sys.exit(1)
     else:
-        print "Could not locate config file, make sure " + configpath + " exists and is properly configured. \nCheck README for more information."
+        print "Could not locate config file, make sure %s exists and is properly configured. \nCheck README for more information." % configpath
         sys.exit(1)
     # }}}
 
