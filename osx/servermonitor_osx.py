@@ -3,26 +3,13 @@
 # All rights reserved.
 
 from __future__ import with_statement
-import urllib
-import commands, re, socket
+import commands, re, socket, ConfigParser, os, sys, urllib
 
-# Change this to values
-id =  # Example: id = 244 (id given by servermonitor)
-password = '' # Example: password = 'GHJdf76(/&sfsdgkjh' (password given by servermonitor)
+# configfile path.
+configpath = os.path.expanduser("~") + "/.servermonitor.rc"
 
-# Standard ports for services (can be modified if you use a custom port)
-SSH_PORT = 22
-FTP_PORT = 21
-HTTP_PORT = 80
-HTTPS_PORT = 443
-SMTP_PORT = 25
-IMAP_PORT = 143
-POP_PORT = 993
-AFP_PORT = 548
-SMB_PORT = 445
-MySQL_PORT = 3306
-DNS_PORT = 53
-LDAP_PORT = 389
+# Default service ports.
+services = {"SSH":443, "SMTP":25, "IMAP":143, "POP":993, "AFP":548, "SMB":554, "MySQL":3306, "DNS":53, "LDAP":389}
 
 # DO NOT change here unless you know what you're doing
 
@@ -37,7 +24,8 @@ filename = '/tmp/webmonitor_load_history'
 # Warn when system loads get higher then 3
 threshold = 3
 LOAD_warning = 0
-def get_system_load():
+
+def get_system_load(): # {{{
     # Pattern to match average load values like '0.71, 1.24, 0.88'
     pattern = r'(?:(\d+(?:\.|,)\d+),?)+'
 
@@ -51,8 +39,38 @@ def get_system_load():
         load = [value.replace(',', '.') for value in load]
 
     return load
+# }}}
+
+def CheckService(port): # {{{
+    "CheckService connects to a service to see if it responds."
+    serviceSocket = socket.socket()
+    serviceSocket.settimeout(0.25)
+    try:
+        serviceSocket.connect(('localhost', port))
+        serviceSocket.close()
+        return True
+    except socket.error:
+        return False
+# }}}
 
 if __name__ == '__main__':
+    # Read configfile. {{{
+    if os.path.exists(configpath) and os.path.isfile(configpath):
+        config = ConfigParser.RawConfigParser()
+        config.read(configpath)
+
+        try:
+            id = config.get("global", "id")
+            password = config.get("global", "password")
+        except ConfigParser.NoOptionError:
+            print "Could not extract id and/or password from " + configpath + ". Make sure it is properly configured."
+            sys.exit(1)
+    else:
+        print "Could not locate config file, make sure " + configpath + " exists and is properly configured. \nCheck README for more information."
+        sys.exit(1)
+    # }}}
+
+
     load = get_system_load()
 
     try:
@@ -78,6 +96,7 @@ if __name__ == '__main__':
         with open(filename, 'w') as file:
             file.write('%s\n' % load[2])
 
+
 # Lots of commands executed.
 serial = commands.getoutput('/usr/sbin/ioreg -l | /usr/bin/grep IOPlatformSerialNumber')
 serial = re.search(r'IOPlatformSerialNumber" = "([^"]+)', serial).group(1)
@@ -95,33 +114,22 @@ sw_vers = commands.getoutput('sw_vers')
 load = re.findall('(\d+[,.]\d+)', uptime)[2] # getting the 15min load for building a graph.
 
 
-# This CheckService function connects to the service to see if it responds
-def CheckService(port):
-    serviceSocket = socket.socket()
-    serviceSocket.settimeout(0.25)
-    try:
-        serviceSocket.connect(('localhost', port))
-        serviceSocket.close()
-        return True
-    except socket.error:
-        return False
-
-HTTP = 1 if CheckService(HTTP_PORT) else 0
-HTTPS = 1 if CheckService(HTTP_PORT) else 0
-DNS = 1 if CheckService(DNS_PORT) else 0
-SMB = 1 if CheckService(SMB_PORT) else 0
-AFP = 1 if CheckService(AFP_PORT) else 0
-SSH = 1 if CheckService(SSH_PORT) else 0
-IMAP = 1 if CheckService(IMAP_PORT) else 0
-SMTP = 1 if CheckService(SMTP_PORT) else 0
-FTP = 1 if CheckService(FTP_PORT) else 0
-LDAP = 1 if CheckService(LDAP_PORT) else 0
-# EOF CheckService BLOCK
-
 p = urllib.urlencode({'password': password, 'hostname': hostname, 'serial': serial, 'id': id, 'who': who, 'last': last, 'dighost': dighost, 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime': uptime, 'ifconfig': ifconfig, 'version': VERSION, 'sw_vers': sw_vers, 'load': load})
 # Send data to server
 f = urllib.urlopen('http://servermonitor.linuxuser.se/monitor.php', p)
 
+for service, value in services.items():
+    try:
+        port = config.get("ports", str(service))
+    except (ConfigParser.NoOptionError, ConfigParser.NoSectionError):
+        port = value
+
+    services[service] = 1 if CheckService(int(port)) else 0
+
+services.update({"id":id, "password":password, "LOAD_warning":LOAD_warning});
+
 # Sending info over running services.
-services = urllib.urlencode({ 'id': id, 'password': password, 'HTTP': HTTP, 'SMB': SMB, 'AFP': AFP, 'SSH': SSH, 'DNS': DNS, 'IMAP': IMAP, 'FTP': FTP, 'SMTP': SMTP, 'HTTPS': HTTPS, 'LDAP': LDAP, 'LOAD_warning': LOAD_warning})
-f = urllib.urlopen('http://servermonitor.linuxuser.se/services.php', services)
+servicesHandle = urllib.urlencode(services);
+f = urllib.urlopen('http://servermonitor.linuxuser.se/services.php', servicesHandle)
+
+# vim: set expandtab shiftwidth=4 tabstop=4
