@@ -14,7 +14,8 @@ password = ChangeMe
 # Everything under this line is OPTIONAL
 # ---------------------------------------------------------------------------------------------
 
-# This application also monitor the system load of your server. If you dont know anything about server load, please keep this at the standard value(3)
+# This application also monitor the system load of your server. By default it warns when the 15min load of your server have been higher then 3 more then 3 times.
+# If you want lower or higher load before warning, change this line.
 threshold = 3
 
 # Standard ports for services (can be modified if you use a custom port)
