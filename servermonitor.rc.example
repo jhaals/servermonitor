@@ -8,11 +8,14 @@
 # Change to the id you have been given
 id = 231
 # Change password
-password = ChangeME
+password = ChangeMe
 
 # ---------------------------------------------------------------------------------------------
 # Everything under this line is OPTIONAL
 # ---------------------------------------------------------------------------------------------
+
+# This application also monitor the system load of your server. If you dont know anything about server load, please keep this at the standard value(3)
+threshold = 3
 
 # Standard ports for services (can be modified if you use a custom port)
 [ports]
@@ -34,6 +37,3 @@ mysql : 3306
 # You don't have to define any of these, fallback will be the default port for that service.
 #dns : 53
 #ldap = 389
-
-# This application also monitor the system load of your server. If you dont know anything about server load, please keep this at the standard value(3)
-threshold = 3
