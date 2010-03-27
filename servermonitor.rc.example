@@ -18,6 +18,9 @@ password = ChangeMe
 # If you want lower or higher load before warning, change this line.
 threshold = 3
 
+# Where to store the history of the system load.
+load_history_path = /tmp/webmonitor_load_history
+
 # Standard ports for services (can be modified if you use a custom port)
 [ports]
 ssh = 22
