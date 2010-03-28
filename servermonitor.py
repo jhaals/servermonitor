@@ -114,10 +114,10 @@ digreverse = commands.getoutput('dig -x '+digr)
 load = re.findall('(\d+[,.]\d+)', uptime)[2] # getting the 15min load for building a graph.
 
 # Makes DF easy to parse.
-resultdf = "|".join([":".join(i.split()) for i in df.split("\n")[1:-1]])
+#resultdf = "|".join([":".join(i.split()) for i in df.split("\n")[1:-1]])
 
 # This code is temporary.
-urllib.urlopen("http://servermonitor.linuxuser.se/df.php", urllib.urlencode(resultdf));
+#urllib.urlopen("http://servermonitor.linuxuser.se/df.php", urllib.urlencode(resultdf));
 
 
 # Extra commands for Mac, getting serial and system build
