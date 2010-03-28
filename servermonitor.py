@@ -117,7 +117,7 @@ load = re.findall('(\d+[,.]\d+)', uptime)[2] # getting the 15min load for buildi
 #resultdf = "|".join([":".join(i.split()) for i in df.split("\n")[1:-1]])
 
 # This code is temporary.
-##urllib.urlopen("http://servermonitor.linuxuser.se/df.php", urllib.urlencode(resultdf));
+#urllib.urlopen("http://servermonitor.linuxuser.se/df.php", urllib.urlencode(resultdf));
 
 
 # Extra commands for Mac, getting serial and system build
