@@ -11,7 +11,7 @@ configpath = os.path.expanduser('~') + '/.servermonitor.rc'
 # Default service ports.
 services = {'SSH':443, 'SMTP':25, 'IMAP':143, 'POP':993, 'AFP':548, 'SMB':554, 'MySQL':3306, 'DNS':53, 'LDAP':389}
 
-VERSION = '2.0' # VERION OF SERVERMONITOR
+VERSION = '2.0.0' # VERION OF SERVERMONITOR
 """
 VERSION sends the current version when updating.
 If update notifications are enabled at the serverpanel you will get notified when a new version is avalible
