@@ -109,44 +109,44 @@ if __name__ == '__main__':
         # TODO: Log this error when a proper logging system is in place.
         pass
 
-# Lots of commands executed.
-df = commands.getoutput('df -h')
-uname = commands.getoutput('uname -a')
-uptime = commands.getoutput('uptime')
-hostname = commands.getoutput('hostname')
-ifconfig = commands.getoutput('/sbin/ifconfig -a')
-last = commands.getoutput('last -n 20')
-who = commands.getoutput('who')
-dighost = commands.getoutput('dig '+hostname)
-digr = commands.getoutput('dig '+hostname+' +short')
-digreverse = commands.getoutput('dig -x '+digr)
-load = re.findall('(\d+[,.]\d+)', uptime)[2] # getting the 15min load for building a graph.
+    # Lots of commands executed.
+    df = commands.getoutput('df -h')
+    uname = commands.getoutput('uname -a')
+    uptime = commands.getoutput('uptime')
+    hostname = commands.getoutput('hostname')
+    ifconfig = commands.getoutput('/sbin/ifconfig -a')
+    last = commands.getoutput('last -n 20')
+    who = commands.getoutput('who')
+    dighost = commands.getoutput('dig '+hostname)
+    digr = commands.getoutput('dig '+hostname+' +short')
+    digreverse = commands.getoutput('dig -x '+digr)
+    load = re.findall('(\d+[,.]\d+)', uptime)[2] # getting the 15min load for building a graph.
 
-# Extra commands for Mac, getting serial and system build
-if(sys.platform == 'darwin'):
-    serial = commands.getoutput('/usr/sbin/ioreg -l | /usr/bin/grep IOPlatformSerialNumber')
-    serial = re.search(r'IOPlatformSerialNumber" = "([^"]+)', serial).group(1)
-    sw_vers = commands.getoutput('sw_vers')
+    # Extra commands for Mac, getting serial and system build
+    if(sys.platform == 'darwin'):
+        serial = commands.getoutput('/usr/sbin/ioreg -l | /usr/bin/grep IOPlatformSerialNumber')
+        serial = re.search(r'IOPlatformSerialNumber" = "([^"]+)', serial).group(1)
+        sw_vers = commands.getoutput('sw_vers')
 
-    serverinfo = urllib.urlencode({'password': password, 'hostname': hostname, 'id': id, 'who': who, 'last': last, 'dighost': dighost, 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime': uptime, 'ifconfig': ifconfig, 'version': VERSION, 'load': load, 'serial': serial, 'sw_vers':sw_vers})
+        serverinfo = urllib.urlencode({'password': password, 'hostname': hostname, 'id': id, 'who': who, 'last': last, 'dighost': dighost, 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime': uptime, 'ifconfig': ifconfig, 'version': VERSION, 'load': load, 'serial': serial, 'sw_vers':sw_vers})
 
-else: # Other OS
-    serverinfo = urllib.urlencode({'password': password, 'hostname': hostname, 'id': id, 'who': who, 'last': last, 'dighost': dighost, 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime': uptime, 'ifconfig': ifconfig, 'version': VERSION, 'load': load})
+    else: # Other OS
+        serverinfo = urllib.urlencode({'password': password, 'hostname': hostname, 'id': id, 'who': who, 'last': last, 'dighost': dighost, 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime': uptime, 'ifconfig': ifconfig, 'version': VERSION, 'load': load})
 
-f = urllib.urlopen('http://servermonitor.linuxuser.se/monitor.php', serverinfo)
+    f = urllib.urlopen('http://servermonitor.linuxuser.se/monitor.php', serverinfo)
 
-for service, value in services.items():
-    try:
-        port = config.get('ports', str(service))
-    except (ConfigParser.NoOptionError, ConfigParser.NoSectionError):
-        port = value
+    for service, value in services.items():
+        try:
+            port = config.get('ports', str(service))
+        except (ConfigParser.NoOptionError, ConfigParser.NoSectionError):
+            port = value
 
-    services[service] = 1 if check_service(int(port)) else 0
+        services[service] = 1 if check_service(int(port)) else 0
 
-services.update({'id':id, 'password':password, 'LOAD_warning':LOAD_warning});
+    services.update({'id':id, 'password':password, 'LOAD_warning':LOAD_warning});
 
-# Sending info over running services.
-servicesHandle = urllib.urlencode(services);
-f = urllib.urlopen('http://servermonitor.linuxuser.se/services.php', servicesHandle)
+    # Sending info over running services.
+    servicesHandle = urllib.urlencode(services);
+    f = urllib.urlopen('http://servermonitor.linuxuser.se/services.php', servicesHandle)
 
 # vim: set expandtab shiftwidth=4 tabstop=4
