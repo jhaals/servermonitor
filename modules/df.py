@@ -13,10 +13,10 @@ def main():
     Get HDD usage and send it to servermonitor servers."""
 
     # Get `df -h`
-    df = commands.getoutput("df -h");
+    output = commands.getoutput("df -h")
 
     # Make it a dict along with id and password.
-    data = {"data":df, "id":cnf.id, "password":cnf.password}
+    data = {"data":output, "id":cnf.id, "password":cnf.password}
 
     # And send it.
-    urllib.urlopen(cnf.addr + "/handlers/df.php", urllib.urlencode(data));
+    urllib.urlopen(cnf.addr + "/handlers/df.php", urllib.urlencode(data))

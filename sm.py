@@ -1,4 +1,6 @@
 #!/usr/bin/python
+# Copyleft 2010 Daniel Beecham <joshu@lunix.se>
+# All rights reversed.
 
 import sys
 import os
