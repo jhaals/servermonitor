@@ -11,14 +11,12 @@ configpath = os.path.expanduser('~') + '/.servermonitor.rc'
 # Default service ports.
 services = {'SSH':443, 'SMTP':25, 'IMAP':143, 'POP':993, 'AFP':548, 'SMB':554, 'MySQL':3306, 'DNS':53, 'LDAP':389}
 
-VERSION = 'linux_1.4' # VERION OF SERVERMONITOR
+VERSION = '2.0' # VERION OF SERVERMONITOR
 """
 VERSION sends the current version when updating.
 If update notifications are enabled at the serverpanel you will get notified when a new version is avalible
 """
 
-# Temp storage for load history
-load_history_path = '/tmp/webmonitor_load_history'
 LOAD_warning = 0
 
 def get_system_load(): # {{{
