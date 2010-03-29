@@ -120,7 +120,6 @@ if __name__ == '__main__':
     dighost = commands.getoutput('dig '+hostname)
     digr = commands.getoutput('dig '+hostname+' +short')
     digreverse = commands.getoutput('dig -x '+digr)
-    load = re.findall('(\d+[,.]\d+)', uptime)[2] # getting the 15min load for building a graph.
 
     serverinfo = {
         'password': password,
@@ -135,7 +134,7 @@ if __name__ == '__main__':
         'uptime': uptime,
         'ifconfig': ifconfig,
         'version': VERSION,
-        'load': load
+        'load': load[2]
     }
 
     # Extra commands for Mac, getting serial and system build
