@@ -21,22 +21,6 @@ If update notifications are enabled at the serverpanel you will get notified whe
 load_history_path = '/tmp/webmonitor_load_history'
 LOAD_warning = 0
 
-def get_system_load(): # {{{
-    # Pattern to match average load values like '0.71, 1.24, 0.88'
-    pattern = r'(?:(\d+(?:\.|,)\d+),?)+'
-
-    uptime_str = commands.getoutput('uptime')
-
-    # Find all occurances of pattern in uptime_str
-    load = re.findall(pattern, uptime_str)
-
-    # Hack for Mac
-    if ',' in load[0]:
-        load = [value.replace(',', '.') for value in load]
-
-    return load
-# }}}
-
 def CheckService(port): # {{{
     'CheckService connects to a service to see if it responds.'
     serviceSocket = socket.socket()
@@ -77,30 +61,36 @@ if __name__ == '__main__':
     # }}}
 
 
-    load = get_system_load()
-
     try:
-        with open(load_history_path, 'r') as file:
-            lines = file.readlines()
+        load = os.getloadavg()
 
-        # Only calculate average if we have atleast 3 previous load values
-        if len(lines) >= 3:
-            avg = sum([float(value) for value in lines]) / len(lines)
+        try:
+            with open(load_history_path, 'r') as file:
+                lines = file.readlines()
 
-            if avg > threshold:
-                LOAD_warning = 1
+            # Only calculate average if we have atleast 3 previous load values
+            if len(lines) >= 3:
+                avg = sum([float(value) for value in lines]) / len(lines)
 
-            # Delete the oldest value
-            del lines[0]
+                if avg > threshold:
+                    LOAD_warning = 1
 
-        lines.append(load[2] + '\n')
+                # Delete the oldest value
+                del lines[0]
 
-        with open(load_history_path, 'w') as file:
-            file.writelines(lines)
+            lines.append(str(load[2]) + '\n')
 
-    except IOError:
-        with open(load_history_path, 'w') as file:
-            file.write('%s\n' % load[2])
+            with open(load_history_path, 'w') as file:
+                file.writelines(lines)
+
+        except IOError:
+            with open(load_history_path, 'w') as file:
+                file.write('%.2f\n' % load[2])
+
+    except OSError:
+        # Couldn't get the system load average.
+        # TODO: Log this error when a proper logging system is in place.
+        pass
 
 # Lots of commands executed.
 df = commands.getoutput('df -h')
