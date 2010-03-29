@@ -3,13 +3,30 @@
 # All rights reserved.
 
 from __future__ import with_statement
-import commands, re, socket, ConfigParser, os, sys, urllib
+
+import commands
+import ConfigParser
+import os
+import re
+import socket
+import sys
+import urllib
 
 # configfile path.
 configpath = os.path.expanduser('~') + '/.servermonitor.rc'
 
 # Default service ports.
-services = {'SSH':443, 'SMTP':25, 'IMAP':143, 'POP':993, 'AFP':548, 'SMB':554, 'MySQL':3306, 'DNS':53, 'LDAP':389}
+services = {
+    'AFP': 548,
+    'DNS': 53,
+    'IMAP': 143,
+    'LDAP': 389,
+    'MySQL': 3306,
+    'POP': 993,
+    'SMB': 554,
+    'SMTP': 25,
+    'SSH': 443
+}
 
 VERSION = 'linux_1.4' # VERION OF SERVERMONITOR
 """
