@@ -8,6 +8,9 @@ import ConfigParser
 import sys
 import os
 
+# Global variables that modules will use.
+addr = "http://servermonitor.linuxuser.se"
+
 def getConfig():
     """ Find and parse configfile. """
 

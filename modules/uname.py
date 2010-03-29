@@ -19,4 +19,7 @@ def main():
     data = {"data":output, "id":cnf.id, "password":cnf.password}
 
     # And send it.
-    urllib.urlopen(cnf.addr + "/handlers/uname.php", urllib.urlencode(data))
+    handle = urllib.urlopen(cnf.addr + "/handlers/uname.php", urllib.urlencode(data))
+    print "uname: " + handle.read()
+
+# vim: expandtab tabstop=4 shiftwidth=4
