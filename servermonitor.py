@@ -21,8 +21,8 @@ If update notifications are enabled at the serverpanel you will get notified whe
 load_history_path = '/tmp/webmonitor_load_history'
 LOAD_warning = 0
 
-def CheckService(port): # {{{
-    'CheckService connects to a service to see if it responds.'
+def check_service(port): # {{{
+    'check_service connects to a service to see if it responds.'
     serviceSocket = socket.socket()
     serviceSocket.settimeout(0.25)
     try:
@@ -124,7 +124,7 @@ for service, value in services.items():
     except (ConfigParser.NoOptionError, ConfigParser.NoSectionError):
         port = value
 
-    services[service] = 1 if CheckService(int(port)) else 0
+    services[service] = 1 if check_service(int(port)) else 0
 
 services.update({'id':id, 'password':password, 'LOAD_warning':LOAD_warning});
 
