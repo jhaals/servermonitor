@@ -28,7 +28,7 @@ services = {
     'SSH': 443
 }
 
-VERSION = 'linux_1.4' # VERION OF SERVERMONITOR
+VERSION = '2.0.0' # VERION OF SERVERMONITOR
 """
 VERSION sends the current version when updating.
 If update notifications are enabled at the serverpanel you will get notified when a new version is avalible
