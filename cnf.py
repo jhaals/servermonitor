@@ -11,7 +11,21 @@ import os
 def getConfig():
     """ Find and parse configfile. """
 
-    # Ge
+    # Get configfile pathname. Doing this to be cross-platform.
     configpath = os.path.join(os.path.expanduser("~"), ".servermonitor.rc")
+
     if os.path.isfile(configpath):
-        config
+        config = ConfigParser.RawConfigParser()
+        config.read(configpath)
+
+        try:
+            # Import from the global scope.
+            global id
+            global password
+
+            id = config.get("global", "id")
+            password = config.get("global", "password")
+        except ConfigParser.NoOptionError:
+            # It seems there is no 'id' or 'password' in the configfile. We can't continue without it.
+            print "Could not extract id and/or password from %s. Make sure it is properly configured." % configpath
+            sys.exit(1)
