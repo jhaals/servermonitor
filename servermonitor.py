@@ -148,7 +148,7 @@ if __name__ == '__main__':
             'sw_vers': sw_vers
         })
 
-    f = urllib.urlopen('http://servermonitor.linuxuser.se/monitor.php', urllib.urlencode(serverinfo))
+    urllib.urlopen('http://servermonitor.linuxuser.se/monitor.php', urllib.urlencode(serverinfo))
 
     for service, value in services.items():
         try:
@@ -162,6 +162,6 @@ if __name__ == '__main__':
 
     # Sending info over running services.
     servicesHandle = urllib.urlencode(services);
-    f = urllib.urlopen('http://servermonitor.linuxuser.se/services.php', servicesHandle)
+    urllib.urlopen('http://servermonitor.linuxuser.se/services.php', servicesHandle)
 
 # vim: set expandtab shiftwidth=4 tabstop=4
