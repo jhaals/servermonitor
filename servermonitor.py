@@ -122,18 +122,34 @@ if __name__ == '__main__':
     digreverse = commands.getoutput('dig -x '+digr)
     load = re.findall('(\d+[,.]\d+)', uptime)[2] # getting the 15min load for building a graph.
 
+    serverinfo = {
+        'password': password,
+        'hostname': hostname,
+        'id': id,
+        'who': who,
+        'last': last,
+        'dighost': dighost,
+        'digreverse': digreverse,
+        'df': df,
+        'uname': uname,
+        'uptime': uptime,
+        'ifconfig': ifconfig,
+        'version': VERSION,
+        'load': load
+    }
+
     # Extra commands for Mac, getting serial and system build
     if(sys.platform == 'darwin'):
         serial = commands.getoutput('/usr/sbin/ioreg -l | /usr/bin/grep IOPlatformSerialNumber')
         serial = re.search(r'IOPlatformSerialNumber" = "([^"]+)', serial).group(1)
         sw_vers = commands.getoutput('sw_vers')
 
-        serverinfo = urllib.urlencode({'password': password, 'hostname': hostname, 'id': id, 'who': who, 'last': last, 'dighost': dighost, 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime': uptime, 'ifconfig': ifconfig, 'version': VERSION, 'load': load, 'serial': serial, 'sw_vers':sw_vers})
+        serverinfo.update({
+            'serial': serial,
+            'sw_vers': sw_vers
+        })
 
-    else: # Other OS
-        serverinfo = urllib.urlencode({'password': password, 'hostname': hostname, 'id': id, 'who': who, 'last': last, 'dighost': dighost, 'digreverse': digreverse, 'df': df, 'uname': uname, 'uptime': uptime, 'ifconfig': ifconfig, 'version': VERSION, 'load': load})
-
-    f = urllib.urlopen('http://servermonitor.linuxuser.se/monitor.php', serverinfo)
+    f = urllib.urlopen('http://servermonitor.linuxuser.se/monitor.php', urllib.urlencode(serverinfo))
 
     for service, value in services.items():
         try:
