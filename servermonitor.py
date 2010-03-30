@@ -38,16 +38,33 @@ If update notifications are enabled at the serverpanel you will get notified whe
 load_history_path = '/tmp/webmonitor_load_history'
 LOAD_warning = 0
 
-def check_service(port):
-    'check_service connects to a service to see if it responds.'
-    serviceSocket = socket.socket()
-    serviceSocket.settimeout(0.25)
-    try:
-        serviceSocket.connect(('localhost', port))
-        serviceSocket.close()
-        return 1
-    except socket.error:
-        return 0
+class ServiceChecker(object):
+    def __init__(self, host='localhost', timeout=0.5):
+        self.host = host
+        self.timeout = timeout
+
+    def _get_socket(self, timeout=None):
+        s = socket.socket()
+        s.settimeout(timeout or self.timeout)
+
+        return s
+
+    def is_responding(self, port, timeout=None):
+        s = self._get_socket(timeout)
+
+        was_connection_successful = False
+
+        try:
+            s.connect((self.host, port))
+            was_connection_successful = True
+
+        except socket.error:
+            # Connection timed out
+            pass
+
+        s.close()
+
+        return was_connection_successful
 
 if __name__ == '__main__':
     # Read configfile. {{{
@@ -150,6 +167,7 @@ if __name__ == '__main__':
     urllib.urlopen('http://servermonitor.linuxuser.se/monitor.php', urllib.urlencode(serverinfo))
 
     # Check if services are accepting connections
+    service_check = ServiceChecker()
     for service, port in services.items():
         try:
             port = int(config.get('ports', service))
@@ -165,7 +183,7 @@ if __name__ == '__main__':
             # standard port.
             pass
 
-        services[service] = check_service(port)
+        services[service] = int(service_check.is_responding(port))
 
     services.update({
         'id': id,
