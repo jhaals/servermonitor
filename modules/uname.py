@@ -12,6 +12,9 @@ def main():
     """servermonitor.uname main function.
     Get uname info and send it to servermonitor servers."""
 
+    if not cnf.quiet:
+        print "uname: ",
+
     # Get `uname -a`
     output = commands.getoutput("uname -a")
 
@@ -20,6 +23,8 @@ def main():
 
     # And send it.
     handle = urllib.urlopen(cnf.addr + "/handlers/uname.php", urllib.urlencode(data))
-    print "uname: " + handle.read()
+
+    if not cnf.quiet:
+        print handle.read()
 
 # vim: expandtab tabstop=4 shiftwidth=4

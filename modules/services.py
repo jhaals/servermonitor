@@ -12,6 +12,9 @@ def main():
     """servermonitor.services main function.
     Get running services and send it to servermonitor servers."""
 
+    if not cnf.quiet:
+        print "services: ",
+
     # Get output from netstat to work with.
     output = commands.getoutput("netstat -ltun")
 
@@ -28,6 +31,8 @@ def main():
 
     # And send it.
     handle = urllib.urlopen(cnf.addr + "/handlers/services.php", urllib.urlencode(data))
-    print "services: " + handle.read()
+
+    if not cnf.quiet:
+        print handle.read()
 
 # vim: expandtab tabstop=4 shiftwidth=4

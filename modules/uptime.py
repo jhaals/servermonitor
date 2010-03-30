@@ -12,6 +12,9 @@ def main():
     """servermonitor.uptime main function.
     Get uptime and send it to servermonitor servers."""
 
+    if not cnf.quiet:
+        print "uptime: ",
+
     # Get `uptime`
     output = commands.getoutput("uptime")
 
@@ -20,6 +23,8 @@ def main():
 
     # And send it.
     handle = urllib.urlopen(cnf.addr + "/handlers/uptime.php", urllib.urlencode(data))
-    print "uptime: " + handle.read()
+
+    if not cnf.quiet:
+        print handle.read()
 
 # vim: expandtab tabstop=4 shiftwidth=4

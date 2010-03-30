@@ -12,6 +12,9 @@ def main():
     """servermonitor.hostname main function.
     Get hostname and send it to servermonitor servers."""
 
+    if not cnf.quiet:
+        print "hostname: ",
+
     # Get `hostname`
     output = commands.getoutput("hostname")
 
@@ -20,6 +23,8 @@ def main():
 
     # And send it.
     handle = urllib.urlopen(cnf.addr + "/handlers/hostname.php", urllib.urlencode(data))
-    print "hostname: " + handle.read()
+
+    if not cnf.quiet:
+        print handle.read()
 
 # vim: expandtab tabstop=4 shiftwidth=4

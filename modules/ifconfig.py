@@ -12,6 +12,9 @@ def main():
     """servermonitor.ifconfig main function.
     Get interface info and send it to servermonitor servers."""
 
+    if not cnf.quiet:
+        print "ifconfig: ",
+
     # Get `ifconfig`
     output = commands.getoutput("ifconfig -a")
 
@@ -20,6 +23,8 @@ def main():
 
     # And send it.
     handle = urllib.urlopen(cnf.addr + "/handlers/ifconfig.php", urllib.urlencode(data))
-    print "ifconfig: " + handle.read()
+
+    if not cnf.quiet:
+        print handle.read()
 
 # vim: expandtab tabstop=4 shiftwidth=4

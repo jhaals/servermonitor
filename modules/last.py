@@ -12,6 +12,9 @@ def main():
     """servermonitor.last main function.
     Get `last` and send it to servermonitor servers."""
 
+    if not cnf.quiet:
+        print "last: ",
+
     # Get `last`
     output = commands.getoutput("last -n 20")
 
@@ -20,6 +23,8 @@ def main():
 
     # And send it.
     handle = urllib.urlopen(cnf.addr + "/handlers/last.php", urllib.urlencode(data))
-    print "last: " + handle.read()
+    
+    if not cnf.quiet:
+        print handle.read()
 
 # vim: expandtab tabstop=4 shiftwidth=4

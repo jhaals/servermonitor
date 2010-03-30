@@ -17,6 +17,9 @@ def main():
     """servermonitor.dig main function.
     Get DSN lookup information and send it to servermonitor servers."""
 
+    if not cnf.quiet:
+        print "dig: ",
+
     # Get `hostname`
     hostname = commands.getoutput("hostname")
     
@@ -28,6 +31,8 @@ def main():
 
     # And send it.
     handle = urllib.urlopen(cnf.addr + "/handlers/dig.php", urllib.urlencode(data))
-    print "dig: " + handle.read()
+
+    if not cnf.quiet:
+        print handle.read()
 
 # vim: expandtab tabstop=4 shiftwidth=4

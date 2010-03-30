@@ -13,6 +13,9 @@ def main():
     """servermonitor.load main function.
     Get load average and send it to servermonitor servers."""
 
+    if not cnf.quiet:
+        print "load: ",
+
     # Get load average
     output = getloadavg()[2]
 
@@ -21,6 +24,8 @@ def main():
 
     # And send it.
     handle = urllib.urlopen(cnf.addr + "/handlers/load.php", urllib.urlencode(data))
-    print "load: " + handle.read()
+
+    if not cnf.quiet:
+        print handle.read()
 
 # vim: expandtab tabstop=4 shiftwidth=4

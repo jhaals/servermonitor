@@ -12,6 +12,9 @@ def main():
     """servermonitor.df main function.
     Get HDD usage and send it to servermonitor servers."""
 
+    if not cnf.quiet:
+        print "df: ",
+
     # Get `df -h`
     output = commands.getoutput("df -h")
 
@@ -23,6 +26,8 @@ def main():
 
     # And send it.
     handle = urllib.urlopen(cnf.addr + "/handlers/df.php", urllib.urlencode(data))
-    print "df: " + handle.read()
+
+    if not cnf.quiet:
+        print handle.read()
 
 # vim: expandtab tabstop=4 shiftwidth=4

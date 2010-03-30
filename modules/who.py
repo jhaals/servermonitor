@@ -12,6 +12,9 @@ def main():
     """servermonitor.who main function.
     Get `who` and send it to servermonitor servers."""
 
+    if not cnf.quiet:
+        print "who: ",
+
     # Get `who`
     output = commands.getoutput("who")
 
@@ -20,6 +23,8 @@ def main():
 
     # And send it.
     handle = urllib.urlopen(cnf.addr + "/handlers/who.php", urllib.urlencode(data))
-    print "who: " + handle.read()
+
+    if not cnf.quiet:
+        print handle.read()
 
 # vim: expandtab tabstop=4 shiftwidth=4
