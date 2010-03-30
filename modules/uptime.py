@@ -7,6 +7,7 @@
 import cnf;
 import commands;
 import urllib;
+import re;
 
 def main():
     """servermonitor.uptime main function.
@@ -16,7 +17,10 @@ def main():
         print "uptime: ",
 
     # Get `uptime`
-    output = commands.getoutput("uptime")
+    uptime = commands.getoutput("uptime")
+
+    # Regexp out the good part.
+    output = re.findall("up ([^\,]+)", uptime)[0]
 
     # Make it a dict along with id and password.
     data = {"data":output, "id":cnf.id, "password":cnf.password}
