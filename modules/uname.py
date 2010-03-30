@@ -15,8 +15,12 @@ def main():
     if not cnf.quiet:
         print "uname: ",
 
-    # Get `uname -a`
-    output = commands.getoutput("uname -a")
+    # Extract information
+    kernelName = commands.getoutput("uname -s")
+    kernelRelease = commands.getoutput("uname -r")
+    machineHardware = commands.getoutput("uname -m")
+
+    output = "|".join([kernelName, kernelRelease, machineHardware])
 
     # Make it a dict along with id and password.
     data = {"data":output, "id":cnf.id, "password":cnf.password}
