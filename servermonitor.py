@@ -38,17 +38,16 @@ If update notifications are enabled at the serverpanel you will get notified whe
 load_history_path = '/tmp/webmonitor_load_history'
 LOAD_warning = 0
 
-def check_service(port): # {{{
+def check_service(port):
     'check_service connects to a service to see if it responds.'
     serviceSocket = socket.socket()
     serviceSocket.settimeout(0.25)
     try:
         serviceSocket.connect(('localhost', port))
         serviceSocket.close()
-        return True
+        return 1
     except socket.error:
-        return False
-# }}}
+        return 0
 
 if __name__ == '__main__':
     # Read configfile. {{{
@@ -150,18 +149,32 @@ if __name__ == '__main__':
 
     urllib.urlopen('http://servermonitor.linuxuser.se/monitor.php', urllib.urlencode(serverinfo))
 
-    for service, value in services.items():
+    # Check if services are accepting connections
+    for service, port in services.items():
         try:
-            port = config.get('ports', str(service))
+            port = int(config.get('ports', service))
+
+        except ValueError:
+            # Couldn't convert the given port to an integer. Continue with
+            # the standard port.
+            # TODO: Log this error when a proper logging system is in place.
+            pass
+
         except (ConfigParser.NoOptionError, ConfigParser.NoSectionError):
-            port = value
+            # No custom port configuration specified. Continue with the
+            # standard port.
+            pass
 
-        services[service] = 1 if check_service(int(port)) else 0
+        services[service] = check_service(port)
 
-    services.update({'id':id, 'password':password, 'LOAD_warning':LOAD_warning});
+    services.update({
+        'id': id,
+        'password': password,
+        'LOAD_warning': LOAD_warning
+    })
 
     # Sending info over running services.
-    servicesHandle = urllib.urlencode(services);
+    servicesHandle = urllib.urlencode(services)
     urllib.urlopen('http://servermonitor.linuxuser.se/services.php', servicesHandle)
 
 # vim: set expandtab shiftwidth=4 tabstop=4
