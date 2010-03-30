@@ -15,6 +15,9 @@ def main():
     # Get `df -h`
     output = commands.getoutput("df -h")
 
+    # Make it parseable
+    output = "||".join(["|".join(i.split()) for i in output.split("\n")[1:]])
+
     # Make it a dict along with id and password.
     data = {"data":output, "id":cnf.id, "password":cnf.password}
 
