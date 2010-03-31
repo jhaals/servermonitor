@@ -23,7 +23,7 @@ def main():
     for line in output.split("\n"):
         splittedLine = line.split()
         if splittedLine[0] == "udp" or splittedLine[0] == "tcp":
-            result += "|".join([splittedLine[0], splittedLine[3], splittedLine[4]]) + "||"
+            result += "|".join([splittedLine[0], splittedLine[3]]) + "||"
 
 
     # Make it a dict along with id and password.
