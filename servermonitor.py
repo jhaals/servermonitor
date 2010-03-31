@@ -11,6 +11,15 @@ import urllib
 # Modules needs to be in python path.
 sys.path.append("./modules")
 
+def runModules():
+    """ Import and run all modules. """
+    for file in os.listdir("./modules"):
+        if file[-3:] == ".py":
+            exec("import " + file[0:-3])
+            exec(file[0:-3] + ".main()")
+    if not cnf.quiet:
+        print 'Done!'
+
 if __name__ == "__main__":
     
     VERSION = '2.0.0'
@@ -24,11 +33,14 @@ if __name__ == "__main__":
         if VERSION != latest_version.read():
             print 'A later version of this software is available for download.' 
 
-    # And now, finally, include and run all modules.
-    for file in os.listdir("./modules"):
-        if file[-3:] == ".py":
-            exec("import " + file[0:-3])
-            exec(file[0:-3] + ".main()")
-    if not cnf.quiet:
-        print 'Done!'
+    if cnf.daemon:
+        import daemon
+        import time
+        with daemon.DaemonContext():
+            while 1:
+                runModules();
+                time.sleep(60*18)
+
+    else: runModules()
+
 # vim: expandtab tabstop=4 shiftwidth=4

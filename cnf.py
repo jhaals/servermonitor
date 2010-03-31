@@ -12,10 +12,11 @@ import getopt
 # Global variables that modules will use.
 addr = "http://servermonitor.linuxuser.se"
 quiet = 0;
+daemon = 0;
 
 def parseOpts(): # {{{
     """ Parse command line arguments and make some global variables. """
-    optlist, args = getopt.gnu_getopt(sys.argv, 'q')
+    optlist, args = getopt.gnu_getopt(sys.argv, 'qd')
 
     for opt in optlist:
         
@@ -23,6 +24,11 @@ def parseOpts(): # {{{
         if opt[0] == '-q':
             global quiet
             quiet = 1
+
+        # daemon
+        if opt[0] == '-d':
+            global daemon
+            daemon = 1
 # }}}
 
 def getConfig(): # {{{
