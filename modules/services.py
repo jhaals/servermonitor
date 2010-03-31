@@ -4,9 +4,10 @@
 
 """This module will get and send info about running services."""
 
-import cnf;
-import commands;
-import urllib;
+import cnf
+import commands
+import urllib
+import sys
 
 def main():
     """servermonitor.services main function.
@@ -16,7 +17,10 @@ def main():
         print "services: ",
 
     # Get output from netstat to work with.
-    output = commands.getoutput("netstat -ltun")
+    if sys.platform == "darwin":
+        output = commands.getoutput("netstat -f inet -n")
+    else:
+        output = commands.getoutput("netstat -ltun")
 
     result = ""
     # Get the good stuff.
