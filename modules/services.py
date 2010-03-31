@@ -26,7 +26,7 @@ def main():
     # Get the good stuff.
     for line in output.split("\n"):
         splittedLine = line.split()
-        if splittedLine[0] == "udp" or splittedLine[0] == "tcp":
+        if splittedLine[0][0:3] == "udp" or splittedLine[0][0:3] == "tcp":
             result += "|".join([splittedLine[0], splittedLine[3]]) + "||"
 
 
