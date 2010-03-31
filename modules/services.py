@@ -27,7 +27,7 @@ def main():
 
 
     # Make it a dict along with id and password.
-    data = {"data":output, "id":cnf.id, "password":cnf.password}
+    data = {"data":result, "id":cnf.id, "password":cnf.password}
 
     # And send it.
     handle = urllib.urlopen(cnf.addr + "/handlers/services.php", urllib.urlencode(data))
