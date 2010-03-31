@@ -8,23 +8,35 @@ import getopt
 import cnf
 import urllib
 
-# Modules needs to be in python path.
-sys.path.append("./modules")
 
-def runModules():
+def runModules(): # {{{
     """ Import and run all modules. """
-    for file in os.listdir("./modules"):
+
+    if cnf.modulepath != "":
+        modulepath = cnf.modulepath
+    else:
+        modulepath = "./modules"
+
+
+    for file in os.listdir(modulepath):
         if file[-3:] == ".py":
             exec("import " + file[0:-3])
             exec(file[0:-3] + ".main()")
     if not cnf.quiet:
         print 'Done!'
+# }}}
 
 if __name__ == "__main__":
     
     VERSION = '2.0.0'
     # Make configparser do it's thing.
     cnf.main()
+
+    # We need a path to the modules.
+    if cnf.modulepath != "":
+        sys.path.append(cnf.modulepath)
+    else:
+        sys.path.append("./modules")
 
     # Checking for latest version.
     if not cnf.quiet:

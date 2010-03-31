@@ -11,8 +11,9 @@ import getopt
 
 # Global variables that modules will use.
 addr = "http://servermonitor.linuxuser.se"
-quiet = 0;
-daemon = 0;
+modulepath = ""
+quiet = 0
+daemon = 0
 
 def parseOpts(): # {{{
     """ Parse command line arguments and make some global variables. """
@@ -52,6 +53,13 @@ def getConfig(): # {{{
             # It seems there is no 'id' or 'password' in the configfile. We can't continue without it.
             print "Could not extract id and/or password from %s. Make sure it is properly configured." % configpath
             sys.exit(1)
+
+        # Some options can be omitted.
+        try:
+            global modulepath
+            modulepath = config.get("global", "modulepath")
+        except:
+            pass
 # }}}
 
 def main():
