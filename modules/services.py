@@ -18,7 +18,7 @@ def main():
 
     # Get output from netstat to work with.
     if sys.platform == "darwin":
-        output = commands.getoutput("netstat -f inet -n")
+        output = commands.getoutput("netstat -f inet -an | grep LISTEN")
     else:
         output = commands.getoutput("netstat -ltun")
 
