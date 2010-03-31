@@ -31,5 +31,4 @@ if __name__ == "__main__":
             exec(file[0:-3] + ".main()")
     if not cnf.quiet:
         print 'Done!'
-        print cnf.addr
 # vim: expandtab tabstop=4 shiftwidth=4
