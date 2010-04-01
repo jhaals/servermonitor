@@ -18,7 +18,7 @@ def runModules(): # {{{
         modulepath = "./modules"
 
 
-    for file in os.listdir(modulepath).sort():
+    for file in os.listdir(modulepath):
         if file[-3:] == ".py":
             exec("import " + file[0:-3])
             exec(file[0:-3] + ".main()")
